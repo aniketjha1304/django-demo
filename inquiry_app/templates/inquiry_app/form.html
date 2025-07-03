@@ -1,0 +1,112 @@
+{% extends 'inquiry_app/base.html' %}
+
+{% block title %}Inquiry Form - Submit{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h3>Inquiry Form</h3>
+            </div>
+            <div class="card-body">
+                <form method="post" onsubmit="return validateForm()">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="id_first_name" class="form-label">First Name *</label>
+                        {{ form.first_name }}
+                        {% if form.first_name.errors %}
+                            <div class="text-danger">{{ form.first_name.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="id_last_name" class="form-label">Last Name *</label>
+                        {{ form.last_name }}
+                        {% if form.last_name.errors %}
+                            <div class="text-danger">{{ form.last_name.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="id_phone" class="form-label">Phone Number *</label>
+                        {{ form.phone }}
+                        {% if form.phone.errors %}
+                            <div class="text-danger">{{ form.phone.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="id_email" class="form-label">Email Address *</label>
+                        {{ form.email }}
+                        {% if form.email.errors %}
+                            <div class="text-danger">{{ form.email.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Gender *</label>
+                        <div>
+                            {{ form.gender }}
+                        </div>
+                        {% if form.gender.errors %}
+                            <div class="text-danger">{{ form.gender.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Marital Status *</label>
+                        <div>
+                            {{ form.marital_status }}
+                        </div>
+                        {% if form.marital_status.errors %}
+                            <div class="text-danger">{{ form.marital_status.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <a href="{% url 'show_records' %}" class="btn btn-secondary">View Records</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function validateForm() {
+    // Get form values
+    var firstName = document.getElementById('id_first_name').value;
+    var lastName = document.getElementById('id_last_name').value;
+    var phone = document.getElementById('id_phone').value;
+    var email = document.getElementById('id_email').value;
+    
+    // Validate first name (only characters)
+    if (!/^[A-Za-z ]+$/.test(firstName)) {
+        alert('First name should contain only characters.');
+        return false;
+    }
+    
+    // Validate last name (only characters)
+    if (!/^[A-Za-z ]+$/.test(lastName)) {
+        alert('Last name should contain only characters.');
+        return false;
+    }
+    
+    // Validate phone (only numbers)
+    if (!/^[0-9]+$/.test(phone)) {
+        alert('Phone number should contain only numbers.');
+        return false;
+    }
+    
+    // Validate email format
+    var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+        alert('Please enter a valid email address.');
+        return false;
+    }
+    
+    return true;
+}
+</script>
+{% endblock %}

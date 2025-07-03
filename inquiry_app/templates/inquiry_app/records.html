@@ -1,0 +1,53 @@
+{% extends 'inquiry_app/base.html' %}
+
+{% block title %}Inquiry Records{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h3>Saved Records</h3>
+                <a href="{% url 'inquiry_form' %}" class="btn btn-primary">Add New Record</a>
+            </div>
+            <div class="card-body">
+                {% if records %}
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Unique Number</th>
+                                    <th>Name with Salutation</th>
+                                    <th>Phone</th>
+                                    <th>Email</th>
+                                    <th>Gender</th>
+                                    <th>Marital Status</th>
+                                    <th>Date Created</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for record in records %}
+                                <tr>
+                                    <td>{{ record.unique_number }}</td>
+                                    <td>{{ record.get_salutation }} {{ record.first_name }} {{ record.last_name }}</td>
+                                    <td>{{ record.phone }}</td>
+                                    <td>{{ record.email }}</td>
+                                    <td>{{ record.get_gender_display }}</td>
+                                    <td>{{ record.get_marital_status_display }}</td>
+                                    <td>{{ record.created_at|date:"M d, Y H:i" }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="alert alert-info">
+                        <h5>No records found!</h5>
+                        <p>Click "Add New Record" to create your first inquiry form.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
